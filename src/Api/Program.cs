@@ -1,3 +1,5 @@
+﻿using Metalama.Framework.Aspects;
+using Metalama.Framework.Fabrics;
 using Microsoft.OpenApi.Models;
 using Realworlddotnet.Api.Features.Articles;
 using Realworlddotnet.Api.Features.Profiles;
@@ -114,4 +116,33 @@ finally
     connection.Close();
     Log.CloseAndFlush();
     Thread.Sleep(2000);
+}
+
+internal class Fabric : ProjectFabric
+{
+    public override void AmendProject(IProjectAmender amender) =>
+        amender.Outbound
+            .SelectMany(compilation => compilation.AllTypes)
+            .SelectMany(type => type.AllMethods)
+            .Where(method => method.BelongsToCurrentProject)
+            .AddAspectIfEligible<LogAttribute>();
+}
+
+public class LogAttribute : OverrideMethodAspect
+{
+    public override dynamic? OverrideMethod()
+    {
+        Console.WriteLine($"{meta.Target.Method.Name}: start");
+
+        var stopwatch = new System.Diagnostics.Stopwatch();
+
+        stopwatch.Start();
+        var result = meta.Proceed();
+        stopwatch.Stop();
+
+        Console.WriteLine($"{meta.Target.Method.Name}: returning {result}.");
+        Console.WriteLine($"{meta.Target.Method.Name}: end. Time taken: {stopwatch.ElapsedMilliseconds}ms");
+
+        return result;
+    }
 }
