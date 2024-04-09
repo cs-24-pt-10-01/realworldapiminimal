@@ -10,8 +10,9 @@ namespace Thor
 {
     class Thor
     {
-        [DllImport("thor_mvp.dll", CallingConvention = CallingConvention.FastCall)]
-        public static extern void start_rapl([MarshalAs(UnmanagedType.LPStr)] string lpString);
+        //[DllImport("thor_mvp.dll", CallingConvention = CallingConvention.FastCall)]
+        [DllImport("thor_minimal_client_empty.dll")]
+        public static extern void start_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString);
 
     }
 }
