@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 using Realworlddotnet.Core.Repositories;
 
 namespace Realworlddotnet.Api.Features.Articles;
@@ -9,6 +9,7 @@ public class ArticlesHandler : IArticlesHandler
 
     public ArticlesHandler(IConduitRepository repository)
     {
+        Thor.Thor.start_rapl("ArticlesHandler.ArticlesHandler");
         _repository = repository;
     }
 
