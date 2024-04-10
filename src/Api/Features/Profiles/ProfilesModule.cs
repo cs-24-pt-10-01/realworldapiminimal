@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 
 namespace Realworlddotnet.Api.Features.Profiles;
 
@@ -6,6 +6,7 @@ public class ProfilesModule : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
+        Thor.Thor.start_rapl("ProfilesModule.AddRoutes");
         var group = app.MapGroup("profiles")
             .RequireAuthorization()
             .WithTags("Profile")
@@ -42,5 +43,6 @@ public class ProfilesModule : ICarterModule
                     return TypedResults.Ok(new ProfilesEnvelope<ProfileDto>(result));
                 })
             .WithName("UnfollowProfile");
+        Thor.Thor.stop_rapl("ProfilesModule.AddRoutes");
     }
 }

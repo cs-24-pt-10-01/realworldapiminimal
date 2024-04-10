@@ -1,9 +1,10 @@
-namespace Realworlddotnet.Api.Features.Tags;
+﻿namespace Realworlddotnet.Api.Features.Tags;
 
 public class TagsModule : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
+        Thor.Thor.start_rapl("TagsModule.AddRoutes");
         app.MapGet("/tags",
                 async (ITagsHandler articlesHandler) =>
                 {
@@ -14,5 +15,6 @@ public class TagsModule : ICarterModule
             .WithTags("Tags")
             .WithName("GetTags")
             .IncludeInOpenApi();
+        Thor.Thor.stop_rapl("TagsModule.AddRoutes");
     }
 }
