@@ -28,16 +28,16 @@ public class UserModule : ICarterModule
                     UserEnvelope<UpdatedUserDto> request
                 ) =>
                 {
-                    Thor.Thor.start_rapl("UserModule.AddRoutes.PutUser");
+                    Thor.Thor.start_rapl("UserModule.AddRoutes.UpdateUser");
                     if (!MiniValidator.TryValidate(request, out var errors))
                     {
-                        Thor.Thor.stop_rapl("UserModule.AddRoutes.PutUser");
+                        Thor.Thor.stop_rapl("UserModule.AddRoutes.UpdateUser");
                         return Results.ValidationProblem(errors);
                     }
                     
                     var username = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
                     var user = await userHandler.UpdateAsync(username!, request.User, new CancellationToken());
-                    Thor.Thor.stop_rapl("UserModule.AddRoutes.PutUser");
+                    Thor.Thor.stop_rapl("UserModule.AddRoutes.UpdateUser");
                     return Results.Ok(new UserEnvelope<UserDto>(user));
                 })
             .Produces<UserEnvelope<UserDto>>()
@@ -48,15 +48,15 @@ public class UserModule : ICarterModule
         app.MapPost("/users",
                 async (IUserHandler userHandler, UserEnvelope<NewUserDto> request) =>
                 {
-                    Thor.Thor.start_rapl("UserModule.AddRoutes.PostUsers");
+                    Thor.Thor.start_rapl("UserModule.AddRoutes.CreateUser");
                     if (!MiniValidator.TryValidate(request, out var errors))
                     {
-                        Thor.Thor.stop_rapl("UserModule.AddRoutes.PostUsers");
+                        Thor.Thor.stop_rapl("UserModule.AddRoutes.CreateUser");
                         return Results.ValidationProblem(errors);
                     }
 
                     var user = await userHandler.CreateAsync(request.User, new CancellationToken());
-                    Thor.Thor.stop_rapl("UserModule.AddRoutes.PostUsers");
+                    Thor.Thor.stop_rapl("UserModule.AddRoutes.CreateUser");
                     return Results.Ok(new UserEnvelope<UserDto>(user));
                 })
             .Produces<UserEnvelope<UserDto>>()
@@ -68,15 +68,15 @@ public class UserModule : ICarterModule
                 async Task<Results<ValidationProblem, Ok<UserEnvelope<UserDto>>>> (IUserHandler userHandler,
                     UserEnvelope<LoginUserDto> request) =>
                 {
-                    Thor.Thor.start_rapl("UserModule.AddRoutes.PostUsersLogin");
+                    Thor.Thor.start_rapl("UserModule.AddRoutes.LoginUser");
                     if (!MiniValidator.TryValidate(request, out var errors))
                     {
-                        Thor.Thor.stop_rapl("UserModule.AddRoutes.PostUsersLogin");
+                        Thor.Thor.stop_rapl("UserModule.AddRoutes.LoginUser");
                         return TypedResults.ValidationProblem(errors);
                     }
 
                     var user = await userHandler.LoginAsync(request.User, new CancellationToken());
-                    Thor.Thor.stop_rapl("UserModule.AddRoutes.PostUsersLogin");
+                    Thor.Thor.stop_rapl("UserModule.AddRoutes.LoginUser");
                     return TypedResults.Ok(new UserEnvelope<UserDto>(user));
                 })
             .Produces<UnprocessableEntity<ValidationProblem>>(422)

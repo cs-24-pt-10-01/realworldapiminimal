@@ -23,9 +23,11 @@ public class ArticlesModule : ICarterModule
                 ([AsParameters] ArticlesQuery query, IArticlesHandler articlesHandler,
                     ClaimsPrincipal claimsPrincipal) =>
                 {
+                    Thor.Thor.start_rapl("ArticlesModule.AddRoutes.Get");
                     var user = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
                     var response = await articlesHandler.GetArticlesAsync(query, user, false, new CancellationToken());
                     var result = ArticlesMapper.MapFromArticles(response);
+                    Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.Get");
                     return TypedResults.Ok(result);
                 })
             .WithName("GetArticles");
@@ -35,9 +37,11 @@ public class ArticlesModule : ICarterModule
                 (string slug, IArticlesHandler articlesHandler,
                     ClaimsPrincipal claimsPrincipal) =>
                 {
+                    Thor.Thor.start_rapl("ArticlesModule.AddRoutes.GetArticle");
                     var user = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
                     var article = await articlesHandler.GetArticleBySlugAsync(slug, user, new CancellationToken());
                     var result = ArticlesMapper.MapFromArticleEntity(article);
+                    Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.GetArticle");
                     return TypedResults.Ok(new ArticleEnvelope<ArticleResponse>(result));
                 })
             .WithName("GetArticle");
@@ -47,9 +51,11 @@ public class ArticlesModule : ICarterModule
                 (string slug, IArticlesHandler articlesHandler,
                     ClaimsPrincipal claimsPrincipal) =>
                 {
+                    Thor.Thor.start_rapl("ArticlesModule.AddRoutes.GetArticleComments");
                     var user = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
                     var result = await articlesHandler.GetCommentsAsync(slug, user, new CancellationToken());
                     var comments = result.Select(CommentMapper.MapFromCommentEntity);
+                    Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.GetArticleComments");
                     return TypedResults.Ok(new CommentsEnvelope<List<Comment>>(comments.ToList()));
                 })
             .WithName("GetArticleComments");
@@ -60,13 +66,18 @@ public class ArticlesModule : ICarterModule
                 (ArticleEnvelope<NewArticleDto> request, IArticlesHandler articlesHandler,
                     ClaimsPrincipal claimsPrincipal) =>
                 {
+                    Thor.Thor.start_rapl("ArticlesModule.AddRoutes.Post");
                     if (!MiniValidator.TryValidate(request, out var errors))
+                    {
+                        Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.Post");
                         return TypedResults.ValidationProblem(errors);
-                    
+                    }
+
                     var user = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
                     var article =
                         await articlesHandler.CreateArticleAsync(request.Article, user!, new CancellationToken());
                     var result = ArticlesMapper.MapFromArticleEntity(article);
+                    Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.Post");
                     return TypedResults.Ok(new ArticleEnvelope<ArticleResponse>(result));
                 })
             .Produces(StatusCodes.Status401Unauthorized)
@@ -77,13 +88,18 @@ public class ArticlesModule : ICarterModule
                 (string slug, ArticleEnvelope<ArticleUpdateDto> request, IArticlesHandler articlesHandler,
                     ClaimsPrincipal claimsPrincipal) =>
                 {
+                    Thor.Thor.start_rapl("ArticlesModule.AddRoutes.PutArticle");
                     if (!MiniValidator.TryValidate(request, out var errors))
+                    {
+                        Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.PutArticle");
                         return TypedResults.ValidationProblem(errors);
-                    
+                    }
+
                     var user = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
                     var article =
                         await articlesHandler.UpdateArticleAsync(request.Article, slug, user!, new CancellationToken());
                     var result = ArticlesMapper.MapFromArticleEntity(article);
+                    Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.PutArticle");
                     return TypedResults.Ok(new ArticleEnvelope<ArticleResponse>(result));
                 })
             .Produces(StatusCodes.Status401Unauthorized)
@@ -93,8 +109,10 @@ public class ArticlesModule : ICarterModule
                 async Task<Ok>
                 (string slug, IArticlesHandler articlesHandler, ClaimsPrincipal claimsPrincipal) =>
                 {
+                    Thor.Thor.start_rapl("ArticlesModule.AddRoutes.DeleteArticle");
                     var user = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
                     await articlesHandler.DeleteArticleAsync(slug, user!, new CancellationToken());
+                    Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.DeleteArticle");
                     return TypedResults.Ok();
                 })
             .Produces(StatusCodes.Status401Unauthorized)
@@ -105,9 +123,11 @@ public class ArticlesModule : ICarterModule
                 (string slug, IArticlesHandler articlesHandler,
                     ClaimsPrincipal claimsPrincipal) =>
                 {
+                    Thor.Thor.start_rapl("ArticlesModule.AddRoutes.FavoriteBySlug");
                     var user = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
                     var article = await articlesHandler.AddFavoriteAsync(slug, user!, new CancellationToken());
                     var result = ArticlesMapper.MapFromArticleEntity(article);
+                    Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.FavoriteBySlug");
                     return TypedResults.Ok(new ArticleEnvelope<ArticleResponse>(result));
                 })
             .Produces(StatusCodes.Status401Unauthorized)
@@ -118,9 +138,11 @@ public class ArticlesModule : ICarterModule
                 (string slug, IArticlesHandler articlesHandler,
                     ClaimsPrincipal claimsPrincipal) =>
                 {
+                    Thor.Thor.start_rapl("ArticlesModule.AddRoutes.UnFavoriteBySlug");
                     var user = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
                     var article = await articlesHandler.DeleteFavorite(slug, user!, new CancellationToken());
                     var result = ArticlesMapper.MapFromArticleEntity(article);
+                    Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.UnFavoriteBySlug");
                     return TypedResults.Ok(new ArticleEnvelope<ArticleResponse>(result));
                 })
             .Produces(StatusCodes.Status401Unauthorized)
@@ -131,11 +153,13 @@ public class ArticlesModule : ICarterModule
                 ([AsParameters] FeedQuery query, IArticlesHandler articlesHandler,
                     ClaimsPrincipal claimsPrincipal) =>
                 {
+                    Thor.Thor.start_rapl("ArticlesModule.AddRoutes.GetFeed");
                     var user = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
                     var articlesQuery = new ArticlesQuery(null, null, null, query.Limit, query.Offset);
                     var response =
                         await articlesHandler.GetArticlesAsync(articlesQuery, user, false, new CancellationToken());
                     var result = ArticlesMapper.MapFromArticles(response);
+                    Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.GetFeed");
                     return TypedResults.Ok(result);
                 })
             .Produces(StatusCodes.Status401Unauthorized)
@@ -146,13 +170,18 @@ public class ArticlesModule : ICarterModule
                 (string slug, CommentEnvelope<CommentDto> request, IArticlesHandler articlesHandler,
                     ClaimsPrincipal claimsPrincipal) =>
                 {
+                    Thor.Thor.start_rapl("ArticlesModule.AddRoutes.CreateComment");
                     if (!MiniValidator.TryValidate(request, out var errors))
+                    {
+                        Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.CreateComment");
                         return TypedResults.ValidationProblem(errors);
-                    
+                    }
+
                     var user = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
                     var result =
                         await articlesHandler.AddCommentAsync(slug, user!, request.comment, new CancellationToken());
                     var comment = CommentMapper.MapFromCommentEntity(result);
+                    Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.CreateComment");
                     return TypedResults.Ok(new CommentEnvelope<Comment>(comment));
                 })
             .Produces(StatusCodes.Status401Unauthorized)
@@ -162,8 +191,10 @@ public class ArticlesModule : ICarterModule
                 async Task<Ok> (string slug, int commentId, IArticlesHandler articlesHandler,
                     ClaimsPrincipal claimsPrincipal) =>
                 {
+                    Thor.Thor.start_rapl("ArticlesModule.AddRoutes.DeleteArticleComment");
                     var user = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
                     await articlesHandler.RemoveCommentAsync(slug, commentId, user!, new CancellationToken());
+                    Thor.Thor.stop_rapl("ArticlesModule.AddRoutes.DeleteArticleComment");
                     return TypedResults.Ok();
                 })
             .Produces(StatusCodes.Status401Unauthorized)
