@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Realworlddotnet.Core.Dto;
 
 namespace Realworlddotnet.Api.Features.Articles;
@@ -7,6 +7,7 @@ public class ArticlesModule : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
+        Thor.Thor.start_rapl("ArticlesModule.AddRoutes");
         var unAuthorizedGroup = app.MapGroup("articles")
             .WithTags("Articles")
             .IncludeInOpenApi();
@@ -167,5 +168,6 @@ public class ArticlesModule : ICarterModule
                 })
             .Produces(StatusCodes.Status401Unauthorized)
             .WithName("DeleteArticleComment");
+        Thor.Thor.stop_rapl("ArticlesModule.AddRoutes");
     }
 }
