@@ -10,9 +10,11 @@ namespace Thor
 {
     class Thor
     {
-        //[DllImport("thor_mvp.dll", CallingConvention = CallingConvention.FastCall)]
-        [DllImport("thor_minimal_client_empty.dll")]
+        [DllImport("thor_mvp.dll")]
         public static extern void start_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString);
+
+        [DllImport("thor_mvp.dll")]
+        public static extern void stop_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString);
 
     }
 }
@@ -21,7 +23,8 @@ class Program
 {
     private static int Main(string[] args)
     {
-        Thor.Thor.start_rapl("testy");
+        // IF YOU GET AN ERROR HERE, MAKE SURE YOU'RE RUNNING AS ADMINISTRATOR (and maybe driver is running too)
+        Thor.Thor.start_rapl("Program.Start");
         var builder = WebApplication.CreateBuilder(args);
 
         // add logging
@@ -119,11 +122,13 @@ class Program
         {
             Log.Information("Starting web host");
             app.Run();
+            Thor.Thor.stop_rapl("Program.Start");
             return 0;
         }
         catch (Exception ex)
         {
             Log.Fatal(ex, "Host terminated unexpectedly");
+            Thor.Thor.stop_rapl("Program.Start");
             return 1;
         }
         finally
@@ -132,5 +137,6 @@ class Program
             Log.CloseAndFlush();
             Thread.Sleep(2000);
         }
+
     }
 }
