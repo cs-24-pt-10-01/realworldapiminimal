@@ -137,6 +137,5 @@ class Program
             Log.CloseAndFlush();
             Thread.Sleep(2000);
         }
-
     }
 }
