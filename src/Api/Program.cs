@@ -141,8 +141,10 @@ internal class Fabric : ProjectFabric
 
 public class LogAttribute : OverrideMethodAspect
 {
+    /*
     [DllImport("thor_mvp.dll")]
     private static extern void start_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString);
+    */
 
     /*
     [DllImport("thor_mvp.dll")]
