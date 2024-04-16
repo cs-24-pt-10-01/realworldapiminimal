@@ -139,14 +139,21 @@ internal class Fabric : ProjectFabric
 
 public class LogAttribute : OverrideMethodAspect
 {
+    [DllImport("thor_mvp.dll")]
+    private static extern void start_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString);
+
+    [DllImport("thor_mvp.dll")]
+    private static extern void stop_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString);
+
     public override dynamic? OverrideMethod()
     {
         Console.WriteLine($"{meta.Target.Method.Name}: start");
 
         var stopwatch = new System.Diagnostics.Stopwatch();
 
-        //start_rapl(0);
+        start_rapl("testy");
         var result = meta.Proceed();
+        stop_rapl("testy");
         stopwatch.Stop();
 
         Console.WriteLine($"{meta.Target.Method.Name}: returning {result}.");
