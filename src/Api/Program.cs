@@ -136,29 +136,43 @@ internal class Fabric : ProjectFabric
 }
 
 
+namespace Thor
+{
+    public class Thor
+    {
+        [DllImport("thor_mvp.dll")]
+        public static extern void start_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString);
+
+        [DllImport("thor_mvp.dll")]
+        public static extern void stop_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString);
+    }
+}
 
 public class LogAttribute : OverrideMethodAspect
 {
-    /*
-    [DllImport("thor_mvp.dll")]
-    private static extern void start_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString);
-    */
+    [Introduce(WhenExists = OverrideStrategy.Override)]
+    private static void start_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString)
+    {
+        Thor.Thor.start_rapl(lpString);
+    }
 
-    /*
-    [DllImport("thor_mvp.dll")]
-    private static extern void stop_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString);
-    */
+    [Introduce(WhenExists = OverrideStrategy.Override)]
+    private static void stop_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString)
+    {
+        Thor.Thor.stop_rapl(lpString);
+    }    
+
     public override dynamic? OverrideMethod()
     {
         Console.WriteLine($"{meta.Target.Method.Name}: start");
 
         var stopwatch = new System.Diagnostics.Stopwatch();
         stopwatch.Start();
-        //start_rapl("testy");
+        start_rapl("testy");
         
         var result = meta.Proceed();
         
-        //stop_rapl("testy");
+        stop_rapl("testy");
         stopwatch.Stop();
 
         Console.WriteLine($"{meta.Target.Method.Name}: returning {result}.");
