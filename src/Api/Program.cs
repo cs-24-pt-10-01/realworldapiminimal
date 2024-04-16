@@ -10,14 +10,8 @@ using Realworlddotnet.Core.Repositories;
 
 public class Program
 {
-    // Import the "start rapl" function from the .dll
-    [DllImport("thor_local_client.dll")]
-    public static extern void start_rapl(int a);
-
     private static int Main(string[] args)
     {
-        start_rapl(0);
-
         var builder = WebApplication.CreateBuilder(args);
 
         // add logging
@@ -145,8 +139,6 @@ internal class Fabric : ProjectFabric
 
 public class LogAttribute : OverrideMethodAspect
 {
-
-
     public override dynamic? OverrideMethod()
     {
         Console.WriteLine($"{meta.Target.Method.Name}: start");
