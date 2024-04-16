@@ -15,11 +15,13 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // add logging
-        builder.Host.UseSerilog((hostBuilderContext, services, loggerConfiguration) =>
+        /*
+         * builder.Host.UseSerilog((hostBuilderContext, services, loggerConfiguration) =>
         {
             loggerConfiguration.ConfigureBaseLogging("realworldDotnet");
             loggerConfiguration.AddApplicationInsightsLogging(services, hostBuilderContext.Configuration);
         });
+        */
 
         // setup database connection (used for in memory SQLite).
         // SQLite in memory requires an open connection during the application lifetime
