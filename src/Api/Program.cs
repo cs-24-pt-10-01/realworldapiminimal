@@ -150,29 +150,17 @@ namespace Thor
 
 public class LogAttribute : OverrideMethodAspect
 {
-    [Introduce(WhenExists = OverrideStrategy.Override)]
-    private static void start_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString)
-    {
-        Thor.Thor.start_rapl(lpString);
-    }
-
-    [Introduce(WhenExists = OverrideStrategy.Override)]
-    private static void stop_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString)
-    {
-        Thor.Thor.stop_rapl(lpString);
-    }    
-
     public override dynamic? OverrideMethod()
     {
         //Console.WriteLine($"{meta.Target.Method.Name}: start");
 
         //var stopwatch = new System.Diagnostics.Stopwatch();
         //stopwatch.Start();
-        start_rapl($"{meta.Target.Method.Name}");
+        Thor.Thor.start_rapl($"{meta.Target.Method.Name}");
         
         var result = meta.Proceed();
         
-        stop_rapl($"{meta.Target.Method.Name}");
+        Thor.Thor.stop_rapl($"{meta.Target.Method.Name}");
         //stopwatch.Stop();
 
         //Console.WriteLine($"{meta.Target.Method.Name}: returning {result}.");
