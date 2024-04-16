@@ -164,19 +164,19 @@ public class LogAttribute : OverrideMethodAspect
 
     public override dynamic? OverrideMethod()
     {
-        Console.WriteLine($"{meta.Target.Method.Name}: start");
+        //Console.WriteLine($"{meta.Target.Method.Name}: start");
 
-        var stopwatch = new System.Diagnostics.Stopwatch();
-        stopwatch.Start();
+        //var stopwatch = new System.Diagnostics.Stopwatch();
+        //stopwatch.Start();
         start_rapl($"{meta.Target.Method.Name}");
         
         var result = meta.Proceed();
         
         stop_rapl($"{meta.Target.Method.Name}");
-        stopwatch.Stop();
+        //stopwatch.Stop();
 
-        Console.WriteLine($"{meta.Target.Method.Name}: returning {result}.");
-        Console.WriteLine($"{meta.Target.Method.Name}: end. Time taken: {stopwatch.ElapsedMilliseconds}ms");
+        //Console.WriteLine($"{meta.Target.Method.Name}: returning {result}.");
+        //Console.WriteLine($"{meta.Target.Method.Name}: end. Time taken: {stopwatch.ElapsedMilliseconds}ms");
 
         return result;
     }
