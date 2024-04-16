@@ -168,11 +168,11 @@ public class LogAttribute : OverrideMethodAspect
 
         var stopwatch = new System.Diagnostics.Stopwatch();
         stopwatch.Start();
-        start_rapl("testy");
+        start_rapl($"{meta.Target.Method.Name}");
         
         var result = meta.Proceed();
         
-        stop_rapl("testy");
+        stop_rapl($"{meta.Target.Method.Name}");
         stopwatch.Stop();
 
         Console.WriteLine($"{meta.Target.Method.Name}: returning {result}.");
