@@ -152,19 +152,27 @@ public class LogAttribute : OverrideMethodAspect
 {
     public override dynamic? OverrideMethod()
     {
+        var methodInfo = meta.Target.Method;
+        var declaringType = methodInfo.DeclaringType;
+        var methodName = methodInfo.Name;
+        var namespaceName = declaringType?.Namespace;
+
+        //Console.WriteLine($"Method: {namespaceName}.{declaringType?.Name}.{methodName} - Start");
         //Console.WriteLine($"{meta.Target.Method.Name}: start");
 
         //var stopwatch = new System.Diagnostics.Stopwatch();
         //stopwatch.Start();
-        Thor.Thor.start_rapl($"{meta.Target.Method.Name}");
+        Thor.Thor.start_rapl($"{namespaceName}.{declaringType?.Name}.{methodName}");
         
         var result = meta.Proceed();
         
-        Thor.Thor.stop_rapl($"{meta.Target.Method.Name}");
+        Thor.Thor.stop_rapl($"{namespaceName}.{declaringType?.Name}.{methodName}");
         //stopwatch.Stop();
 
         //Console.WriteLine($"{meta.Target.Method.Name}: returning {result}.");
         //Console.WriteLine($"{meta.Target.Method.Name}: end. Time taken: {stopwatch.ElapsedMilliseconds}ms");
+
+        //Console.WriteLine($"Method: {namespaceName}.{declaringType?.Name}.{methodName} - Returning {result}.");
 
         return result;
     }
