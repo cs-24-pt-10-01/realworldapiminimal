@@ -4,7 +4,7 @@ npm install newman # newman used in run-api-tests.sh
 # starting the service
 dotnet run --configuration Release --project src/Api & 
 
-sleep 5s
+sleep 10s
 
 # run the tests
 APIURL=http://localhost:5000 ./run-api-tests.sh
