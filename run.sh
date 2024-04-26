@@ -6,6 +6,8 @@ dotnet run --configuration Release --project src/Api &
 
 sleep 10s
 
+chmod +x run-api-tests.sh
+
 # run the tests
 APIURL=http://localhost:5000 ./run-api-tests.sh
 
