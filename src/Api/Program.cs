@@ -140,10 +140,10 @@ namespace Thor
 {
     public class Thor
     {
-        [DllImport("libthor_mvp.so")]
+        [DllImport("libthor_lib_sync.so")]
         public static extern void start_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString);
 
-        [DllImport("libthor_mvp.so")]
+        [DllImport("libthor_lib_sync.so")]
         public static extern void stop_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString);
     }
 }
