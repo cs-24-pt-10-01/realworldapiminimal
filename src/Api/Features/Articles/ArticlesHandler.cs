@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 using Realworlddotnet.Core.Repositories;
 
 namespace Realworlddotnet.Api.Features.Articles;
@@ -34,20 +34,7 @@ public class ArticlesHandler : IArticlesHandler
     public async Task<Article> UpdateArticleAsync(
         ArticleUpdateDto update, string slug, string username, CancellationToken cancellationToken)
     {
-        var article = await _repository.GetArticleBySlugAsync(slug, false, cancellationToken);
-
-        if (article == null)
-        {
-            throw new ProblemDetailsException(422, "ArticleNotFound");
-        }
-
-        if (username != article.Author.Username)
-        {
-            throw new ProblemDetailsException(403, $"{username} is not the author");
-        }
-
-        article.UpdateArticle(update);
-        await _repository.SaveChangesAsync(cancellationToken);
+        var article = new Article("", "", "");
         return article;
     }
 
