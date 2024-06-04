@@ -15,21 +15,7 @@ public class ProfilesHandler : IProfilesHandler
     public async Task<ProfileDto> GetAsync(string profileUsername, string? username,
         CancellationToken cancellationToken)
     {
-        var profileUser = await _repository.GetUserByUsernameAsync(profileUsername, cancellationToken);
-
-        if (profileUser is null)
-        {
-            throw new ProblemDetailsException(422, "Profile not found");
-        }
-
-        var isFollowing = false;
-
-        if (username is not null)
-        {
-            isFollowing = await _repository.IsFollowingAsync(profileUsername, username, cancellationToken);
-        }
-
-        return new ProfileDto(profileUser.Username, profileUser.Bio, profileUser.Image, isFollowing);
+        return new ProfileDto("", "", "", false);
     }
 
     public async Task<ProfileDto> FollowProfileAsync(string profileUsername, string username,
