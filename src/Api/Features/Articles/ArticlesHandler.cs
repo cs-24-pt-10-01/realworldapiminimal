@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 using Realworlddotnet.Core.Repositories;
 
 namespace Realworlddotnet.Api.Features.Articles;
@@ -136,7 +136,7 @@ public class ArticlesHandler : IArticlesHandler
     public async Task<List<Core.Entities.Comment>> GetCommentsAsync(string slug, string? username,
         CancellationToken cancellationToken)
     {
-        var comments = await _repository.GetCommentsBySlugAsync(slug, username, cancellationToken);
+        var comments = new List<Core.Entities.Comment>();
         return comments;
     }
 
