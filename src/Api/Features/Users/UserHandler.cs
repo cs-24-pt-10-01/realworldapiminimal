@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 using Realworlddotnet.Core.Repositories;
 
 namespace Realworlddotnet.Api.Features.Users;
@@ -48,8 +48,6 @@ public class UserHandler : IUserHandler
 
     public async Task<UserDto> GetAsync(string username, CancellationToken cancellationToken)
     {
-        var user = await _repository.GetUserByUsernameAsync(username, cancellationToken);
-        var token = _tokenGenerator.CreateToken(user.Username);
-        return new UserDto(user.Username, user.Email, token, user.Bio, user.Image);
+        return new UserDto("","","","","");
     }
 }
