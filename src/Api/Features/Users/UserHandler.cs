@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 using Realworlddotnet.Core.Repositories;
 
 namespace Realworlddotnet.Api.Features.Users;
@@ -35,15 +35,7 @@ public class UserHandler : IUserHandler
 
     public async Task<UserDto> LoginAsync(LoginUserDto login, CancellationToken cancellationToken)
     {
-        var user = await _repository.GetUserByEmailAsync(login.Email);
-
-        if (user == null || user.Password != login.Password)
-        {
-            throw new ProblemDetailsException(422, "Incorrect Credentials");
-        }
-
-        var token = _tokenGenerator.CreateToken(user.Username);
-        return new UserDto(user.Username, user.Email, token, user.Bio, user.Image);
+        return new UserDto("", "", "", "", "");
     }
 
     public async Task<UserDto> GetAsync(string username, CancellationToken cancellationToken)
