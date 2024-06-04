@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 using Realworlddotnet.Core.Repositories;
 
 namespace Realworlddotnet.Api.Features.Articles;
@@ -53,19 +53,6 @@ public class ArticlesHandler : IArticlesHandler
 
     public async Task DeleteArticleAsync(string slug, string username, CancellationToken cancellationToken)
     {
-        var article = await _repository.GetArticleBySlugAsync(slug, false, cancellationToken) ??
-                      throw new ProblemDetailsException(new HttpValidationProblemDetails
-                      {
-                          Status = 422, Title = "Article not found", Detail = $"Slug: {slug}"
-                      });
-
-        if (username != article.Author.Username)
-        {
-            throw new ProblemDetailsException(403, $"{username} is not the author");
-        }
-
-        _repository.DeleteArticle(article);
-        await _repository.SaveChangesAsync(cancellationToken);
     }
 
     public Task<ArticlesResponseDto> GetArticlesAsync(ArticlesQuery query, string? username, bool isFeed,
