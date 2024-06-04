@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 using Realworlddotnet.Core.Repositories;
 
 namespace Realworlddotnet.Api.Features.Articles;
@@ -71,7 +71,7 @@ public class ArticlesHandler : IArticlesHandler
     public Task<ArticlesResponseDto> GetArticlesAsync(ArticlesQuery query, string? username, bool isFeed,
         CancellationToken cancellationToken)
     {
-        return _repository.GetArticlesAsync(query, username, false, cancellationToken);
+        return Task.FromResult(new ArticlesResponseDto(new List<Article>(), 0));
     }
 
 
