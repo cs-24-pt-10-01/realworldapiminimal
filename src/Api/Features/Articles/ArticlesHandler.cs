@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 using Realworlddotnet.Core.Repositories;
 
 namespace Realworlddotnet.Api.Features.Articles;
@@ -142,22 +142,7 @@ public class ArticlesHandler : IArticlesHandler
 
     public async Task<Article> AddFavoriteAsync(string slug, string username, CancellationToken cancellationToken)
     {
-        var user = await _repository.GetUserByUsernameAsync(username, cancellationToken);
-        var article = await _repository.GetArticleBySlugAsync(slug, false, cancellationToken) ??
-                      throw new ProblemDetailsException(new HttpValidationProblemDetails
-                      {
-                          Status = 422, Title = "Article not found", Detail = $"Slug: {slug}"
-                      });
-
-        var articleFavorite = await _repository.GetArticleFavoriteAsync(user.Username, article.Id);
-
-        if (articleFavorite is null)
-        {
-            _repository.AddArticleFavorite(new ArticleFavorite(user.Username, article.Id));
-            await _repository.SaveChangesAsync(cancellationToken);
-        }
-
-        article = await _repository.GetArticleBySlugAsync(slug, false, cancellationToken);
+        var article = new Article("","","");
         return article!;
     }
 
