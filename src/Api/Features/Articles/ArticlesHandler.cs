@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 using Realworlddotnet.Core.Repositories;
 
 namespace Realworlddotnet.Api.Features.Articles;
@@ -15,19 +15,7 @@ public class ArticlesHandler : IArticlesHandler
     public async Task<Article> CreateArticleAsync(
         NewArticleDto newArticle, string username, CancellationToken cancellationToken)
     {
-        var user = await _repository.GetUserByUsernameAsync(username, cancellationToken);
-        var tags = await _repository.UpsertTagsAsync(newArticle.TagList, cancellationToken);
-        await _repository.SaveChangesAsync(cancellationToken);
-
-        var article = new Article(
-                newArticle.Title,
-                newArticle.Description,
-                newArticle.Body
-            ) { Author = user, Tags = tags.ToList() }
-            ;
-
-        _repository.AddArticle(article);
-        await _repository.SaveChangesAsync(cancellationToken);
+        var article = new Article("","","");
         return article;
     }
 
