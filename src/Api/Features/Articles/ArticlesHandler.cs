@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 using Realworlddotnet.Core.Repositories;
 
 namespace Realworlddotnet.Api.Features.Articles;
@@ -92,17 +92,7 @@ public class ArticlesHandler : IArticlesHandler
     public async Task<Core.Entities.Comment> AddCommentAsync(string slug, string username, CommentDto commentDto,
         CancellationToken cancellationToken)
     {
-        var user = await _repository.GetUserByUsernameAsync(username, cancellationToken);
-        var article = await _repository.GetArticleBySlugAsync(slug, false, cancellationToken) ??
-                      throw new ProblemDetailsException(new HttpValidationProblemDetails
-                      {
-                          Status = 422, Title = "Article not found", Detail = $"Slug: {slug}"
-                      });
-
-        var comment = new Core.Entities.Comment(commentDto.body, user.Username, article.Id);
-        _repository.AddArticleComment(comment);
-
-        await _repository.SaveChangesAsync(cancellationToken);
+        var comment = new Core.Entities.Comment("", "", Guid.NewGuid());
         return comment;
     }
 
