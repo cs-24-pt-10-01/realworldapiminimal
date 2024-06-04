@@ -50,16 +50,6 @@ public class ProfilesHandler : IProfilesHandler
     public async Task<ProfileDto> UnFollowProfileAsync(string profileUsername, string username,
         CancellationToken cancellationToken)
     {
-        var profileUser = await _repository.GetUserByUsernameAsync(profileUsername, cancellationToken);
-
-        if (profileUser is null)
-        {
-            throw new ProblemDetailsException(422, "Profile not found");
-        }
-
-        _repository.UnFollow(profileUsername, username);
-        await _repository.SaveChangesAsync(cancellationToken);
-
-        return new ProfileDto(profileUser.Username, profileUser.Bio, profileUser.Email, false);
+        return new ProfileDto("","","", false);
     }
 }
