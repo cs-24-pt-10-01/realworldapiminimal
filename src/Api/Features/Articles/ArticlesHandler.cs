@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 using Realworlddotnet.Core.Repositories;
 
 namespace Realworlddotnet.Api.Features.Articles;
@@ -77,15 +77,7 @@ public class ArticlesHandler : IArticlesHandler
 
     public async Task<Article> GetArticleBySlugAsync(string slug, string? username, CancellationToken cancellationToken)
     {
-        var article = await _repository.GetArticleBySlugAsync(slug, false, cancellationToken) ??
-                      throw new ProblemDetailsException(new HttpValidationProblemDetails
-                      {
-                          Status = 422, Title = "Article not found", Detail = $"Slug: {slug}"
-                      });
-
-        var comments = await _repository.GetCommentsBySlugAsync(slug, username, cancellationToken);
-        article.Comments = comments;
-
+        var article = new Article("", "", "");
         return article;
     }
 
