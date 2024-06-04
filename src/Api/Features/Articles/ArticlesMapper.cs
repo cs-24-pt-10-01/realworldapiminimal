@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 
 namespace Realworlddotnet.Api.Features.Articles;
 
@@ -28,9 +28,6 @@ public static class ArticlesMapper
 
     public static ArticlesResponse MapFromArticles(ArticlesResponseDto articlesResponseDto)
     {
-        var articles = articlesResponseDto.Articles
-            .Select(articleEntity => MapFromArticleEntity(articleEntity))
-            .ToList();
-        return new ArticlesResponse(articles, articlesResponseDto.ArticlesCount);
+        return new ArticlesResponse(new List<ArticleResponse>(), 0);
     }
 }
