@@ -1,4 +1,4 @@
-using Realworlddotnet.Core.Dto;
+﻿using Realworlddotnet.Core.Dto;
 using Realworlddotnet.Core.Repositories;
 
 namespace Realworlddotnet.Api.Features.Articles;
@@ -109,28 +109,6 @@ public class ArticlesHandler : IArticlesHandler
     public async Task RemoveCommentAsync(string slug, int commentId, string username,
         CancellationToken cancellationToken)
     {
-        _ = await _repository.GetArticleBySlugAsync(slug, false, cancellationToken) ??
-            throw new ProblemDetailsException(new HttpValidationProblemDetails
-            {
-                Status = 422, Title = "Article not found", Detail = $"Slug: {slug}"
-            });
-
-        var comments = await _repository.GetCommentsBySlugAsync(slug, username, cancellationToken);
-        var comment = comments.FirstOrDefault(x => x.Id == commentId) ??
-                      throw new ProblemDetailsException(new HttpValidationProblemDetails
-                      {
-                          Status = 422, Title = "Comment not found", Detail = $"CommentId {commentId}",
-                      });
-
-
-        if (comment.Author.Username != username)
-            throw new ProblemDetailsException(new HttpValidationProblemDetails
-            {
-                Status = 422, Title = "User does not own Article", Detail = $"User: {username},  Slug: {slug}"
-            });
-
-        comments.Remove(comment);
-        await _repository.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<List<Core.Entities.Comment>> GetCommentsAsync(string slug, string? username,
