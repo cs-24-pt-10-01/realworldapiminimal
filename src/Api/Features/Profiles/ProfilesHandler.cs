@@ -44,7 +44,7 @@ public class ProfilesHandler : IProfilesHandler
         _repository.Follow(profileUsername, username);
         await _repository.SaveChangesAsync(cancellationToken);
 
-        return new ProfileDto(profileUser.Username, profileUser.Bio, profileUser.Email, true);
+        return new ProfileDto("", "", "", true);
     }
 
     public async Task<ProfileDto> UnFollowProfileAsync(string profileUsername, string username,
