@@ -121,7 +121,8 @@ public class Program
             Log.CloseAndFlush();
             Thread.Sleep(2000);
             Thor.Thor.stop_rapl($"Non stubbed");
-
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }
