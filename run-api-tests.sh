@@ -11,4 +11,5 @@ PASSWORD=${PASSWORD:-password}
 npx newman run $SCRIPTDIR/Conduit.postman_collection.json \
   -d ./data.csv \
   -n 10 \
-  "$@"
+  "$@" \
+  --reporter-cli-silent
