@@ -1,6 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using Metalama.Framework.Aspects;
-using Metalama.Framework.Fabrics;
 using Microsoft.OpenApi.Models;
 using Realworlddotnet.Api.Features.Articles;
 using Realworlddotnet.Api.Features.Profiles;
@@ -12,6 +10,7 @@ public class Program
 {
     private static int Main(string[] args)
     {
+        Thor.Thor.start_rapl($"CreateArticleAsync stubbed");
         var builder = WebApplication.CreateBuilder(args);
 
         // add logging
@@ -121,10 +120,13 @@ public class Program
             connection.Close();
             Log.CloseAndFlush();
             Thread.Sleep(2000);
+            Thor.Thor.stop_rapl($"CreateArticleAsync stubbed");
+
         }
     }
 }
 
+/*
 internal class Fabric : ProjectFabric
 {
     public override void AmendProject(IProjectAmender amender) =>
@@ -134,7 +136,7 @@ internal class Fabric : ProjectFabric
             .Where(method => method.BelongsToCurrentProject)
             .AddAspectIfEligible<LogAttribute>();
 }
-
+*/
 
 namespace Thor
 {
@@ -147,7 +149,7 @@ namespace Thor
         public static extern void stop_rapl([MarshalAs(UnmanagedType.LPUTF8Str)] string lpString);
     }
 }
-
+/*
 public class LogAttribute : OverrideMethodAspect
 {
     public override dynamic? OverrideMethod()
@@ -177,3 +179,4 @@ public class LogAttribute : OverrideMethodAspect
         return result;
     }
 }
+*/
