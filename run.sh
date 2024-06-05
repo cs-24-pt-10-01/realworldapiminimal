@@ -17,5 +17,5 @@ do
     # stopping the service (warning this will kill all node processes)
     pkill dotnet
 
-    sleep 10s # wait for the service to stop
+    sleep 20s # wait for the service to stop
 done
