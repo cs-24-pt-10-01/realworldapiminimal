@@ -17,5 +17,6 @@ do
     # stopping the service (warning this will kill all node processes)
     pkill dotnet
 
-    sleep 20s # wait for the service to stop
+    sleep 10s # wait for the service to stop
+    git reset --hard # reset any changes
 done
