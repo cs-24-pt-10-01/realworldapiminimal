@@ -11,5 +11,5 @@ chmod +x run-api-tests.sh
 # run the tests
 APIURL=http://localhost:5000 ./run-api-tests.sh
 
-    # stopping the service (warning this will kill all node processes)
-pkill dotnet
+# stopping the service (warning this will kill all node processes)
+pkill dotnets
