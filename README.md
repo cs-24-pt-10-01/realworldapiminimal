@@ -1,3 +1,6 @@
+This is a fork of RealWorld example app in Dotnet. This have been instrumented with metalama to detect energy hotspots using our tool Thor.
+The original README:
+
 # ![RealWorld Example App](logo.png)
 
 > ### [Dotnet 7] codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
